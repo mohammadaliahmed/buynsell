@@ -37,6 +37,7 @@
         <activity android:name=".Activities.SubmitAd" />
         <activity android:name=".Activities.SuccessPage" />
         <activity android:name=".Activities.AccountSettings" />
+        <activity android:name=".Activities.MyAds" />
         <activity
             android:name=".Activities.AdPage"
             android:theme="@style/AppTheme.NoActionBar" />

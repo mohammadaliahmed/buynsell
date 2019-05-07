@@ -153,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_friends) {
 
         } else if (id == R.id.nav_my_ads) {
+            startActivity(new Intent(MainActivity.this, MyAds.class));
 
         } else if (id == R.id.nav_settings) {
 

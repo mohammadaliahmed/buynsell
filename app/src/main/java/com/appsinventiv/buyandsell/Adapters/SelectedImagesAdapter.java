@@ -61,9 +61,9 @@ public class SelectedImagesAdapter extends RecyclerView.Adapter<SelectedImagesAd
 
     @Override
     public int getItemCount() {
-//        if(mobileAds==null){
+//        if(itemList==null){
 //            return 0;
-//        }else if(mobileAds.size()> Constants.HORIZONTAL_LIST_HOME_LIMIT){
+//        }else if(itemList.size()> Constants.HORIZONTAL_LIST_HOME_LIMIT){
 //            return Constants.HORIZONTAL_LIST_HOME_LIMIT;
 //        }else {
             return mobileAds.size();
