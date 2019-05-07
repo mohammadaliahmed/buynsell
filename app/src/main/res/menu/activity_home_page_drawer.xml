@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_browse_ads"
+            android:icon="@drawable/ic_browse"
+            android:title="Browse Ads" />
+
+
+        <item
+            android:id="@+id/nav_submit"
+            android:icon="@drawable/ic_submit_ad"
+            android:title="Submit a Free Ad" />
+    </group>
+
+    <item android:title="User">
+        <menu>
+            <item
+                android:id="@+id/nav_my_ads"
+                android:icon="@drawable/ic_my_ads"
+                android:title="My Ads" />
+            <item
+                android:id="@+id/nav_favourites"
+                android:icon="@drawable/ic_menu_gallery"
+                android:visible="true"
+                android:title="My Favourites" />
+            <item
+                android:id="@+id/nav_account"
+                android:icon="@drawable/ic_my_account"
+                android:title="My Account" />
+
+
+        </menu>
+    </item>
+    <item android:title="App">
+        <menu>
+
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_help"
+                android:icon="@drawable/ic_help"
+                android:title="Help" />
+        </menu>
+    </item>
+
+</menu>

@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    android:focusableInTouchMode="true">
+
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="55dp"
+        android:visibility="visible">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_slider"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/viewPager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerHorizontal="true">
+
+                    </android.support.v4.view.ViewPager>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/viewPager" />
+
+
+                </RelativeLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_ad_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/card_slider"
+                android:layout_margin="10dp"
+
+                card_view:cardElevation="2dp">
+
+                <RelativeLayout
+                    android:id="@+id/aaa"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="match_parent"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_margin="5dp"
+                        android:layout_marginTop="20dp"
+                        android:maxLines="2"
+                        android:text=""
+                        android:textColor="#000"
+                        android:textSize="20sp" />
+
+
+                    <TextView
+                        android:id="@id/time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/title"
+                        android:layout_margin="5dp"
+                        android:text=""
+                        android:textSize="15sp" />
+
+
+                    <TextView
+                        android:id="@+id/views"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/title"
+                        android:layout_margin="5dp"
+                        android:text=""
+                        android:textSize="15sp" />
+
+
+                    <TextView
+                        android:id="@+id/location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/time"
+                        android:layout_margin="5dp"
+                        android:text=""
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/location"
+                        android:layout_margin="5dp"
+                        android:text=""
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
+
+                    <View
+                        android:id="@+id/line"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@id/price"
+
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="#e2e2e2"
+                        android:visibility="gone" />
+
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/line"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:weightSum="1.0">
+
+                        <LinearLayout
+                            android:id="@+id/sharead"
+                            android:layout_width="0dip"
+                            android:layout_height="50dp"
+                            android:layout_margin="1dp"
+                            android:layout_weight=".33"
+                            android:clickable="true"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:gravity="center"
+                            android:textSize="12sp">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_margin="5dp"
+                                android:src="@drawable/ic_share" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:text="Share"
+
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/favourite"
+                            android:layout_width="0dip"
+                            android:layout_height="50dp"
+                            android:layout_margin="1dp"
+                            android:layout_weight=".33"
+                            android:clickable="true"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:gravity="center"
+                            android:textSize="12sp">
+
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="4dp"
+
+                                android:text="Favourite"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/report"
+                            android:layout_width="0dip"
+                            android:layout_height="50dp"
+                            android:layout_margin="1dp"
+
+                            android:layout_weight=".34"
+                            android:clickable="true"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:gravity="center"
+                            android:textSize="12sp">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_margin="5dp"
+                                android:src="@drawable/ic_report" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:text="Report"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/descriptioncard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/card_ad_details"
+                android:layout_margin="10dp"
+                android:minHeight="100dp"
+
+                card_view:cardElevation="2dp">
+
+                <include layout="@layout/ad_description">
+
+                </include>
+
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/usercard"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_below="@+id/descriptioncard"
+                android:layout_margin="10dp"
+                android:visibility="gone"
+
+                card_view:cardElevation="2dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="5dp">
+
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="9dp"
+                        android:layout_marginLeft="9dp"
+                        android:src="@drawable/default_avatar" />
+
+                    <TextView
+                        android:id="@+id/username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_toEndOf="@+id/imageView4"
+                        android:layout_toRightOf="@+id/imageView4"
+                        android:padding="15dp"
+                        android:text=" "
+                        android:textSize="20dp" />
+
+                    <TextView
+                        android:id="@+id/viewMoreAds"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:clickable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:padding="5dp"
+                        android:text="View Users Ads"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/adcard"
+                android:layout_width="match_parent"
+                android:layout_height="255dp"
+                android:layout_below="@+id/usercard"
+                android:layout_margin="10dp"
+                android:visibility="gone"
+
+                card_view:cardElevation="2dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="2dp">
+
+                    <!--<com.google.android.gms.ads.AdView-->
+                    <!--android:id="@+id/adView"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignParentBottom="true"-->
+                    <!--android:layout_centerHorizontal="true"-->
+                    <!--ads:adSize="MEDIUM_RECTANGLE"-->
+                    <!--ads:adUnitId="@string/banner_ad_unit_id"></com.google.android.gms.ads.AdView>-->
+
+                </RelativeLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/adcard"
+                android:layout_margin="15dp"
+                android:text="Safety Tips:\n>Never transfer money in advance.\n>Try to meet the seller at a public place.\n>Do not proceed if something seems wrong."
+                android:textSize="10sp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <LinearLayout
+            android:id="@+id/sms"
+            android:layout_width="0dip"
+            android:layout_height="50dp"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:textSize="12sp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_margin="5dp"
+                android:src="@drawable/ic_message" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="SMS"
+
+                android:textColor="#fff"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/whatsapp"
+            android:layout_width="0dip"
+            android:layout_height="50dp"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_margin="5dp"
+                android:src="@drawable/ic_whatsapp" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+
+                android:text="Whatsapp"
+                android:textColor="#fff"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/call"
+            android:layout_width="0dip"
+            android:layout_height="50dp"
+            android:layout_margin="1dp"
+
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:textSize="12sp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_margin="5dp"
+                android:src="@drawable/mobile" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Call"
+                android:textColor="#fff"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/wholeView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#f5f5f5"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/toolbar_gradient">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:background="@null"
+            android:padding="15dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/back_arrow" />
+
+    </RelativeLayout>
+</RelativeLayout>

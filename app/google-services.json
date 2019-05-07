@@ -1,0 +1,44 @@
+{
+  "project_info": {
+    "project_number": "884826718098",
+    "firebase_url": "https://buyandsell-1d51f.firebaseio.com",
+    "project_id": "buyandsell-1d51f",
+    "storage_bucket": "buyandsell-1d51f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:884826718098:android:cdadb7ed37b7d79f",
+        "android_client_info": {
+          "package_name": "com.appsinventiv.buyandsell"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "884826718098-artg9i6daqcie7it10061u8d51envft6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.appsinventiv.buyandsell",
+            "certificate_hash": "fa7734f56677f3ea319837d95cad6564d25b63ef"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhLy5GOZgCfVHPZIlK9ZsaZq7raTAulAk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "884826718098-vdth7dj1fcrtrhbll8rvb21onvdugghp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
