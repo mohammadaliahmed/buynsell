@@ -10,7 +10,7 @@
             android:title="Home" />
         <item
             android:id="@+id/nav_browse_ads"
-            android:icon="@drawable/ic_browse"
+            android:icon="@drawable/ic_search_black"
             android:title="Browse Ads" />
 
 

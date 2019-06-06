@@ -9,11 +9,10 @@
         android:layout_margin="10dp"
         android:orientation="vertical">
 
-
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/pickPicture"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_gravity="center_horizontal"
             android:layout_margin="20dp"
             android:src="@drawable/ic_profile_placeholder" />
@@ -27,84 +26,32 @@
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:editable="false"
                 android:hint="Name" />
         </android.support.design.widget.TextInputLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="horizontal">
+            android:layout_margin="20dp"></Spinner>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:text="Select Type:" />
-
-            <RadioGroup
-                android:id="@+id/radioGroup1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp">
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:checked="false"
-                    android:id="@+id/radio0"
-                    android:layout_height="wrap_content"
-                    android:text="Personal" />
-
-                <RadioButton
-                    android:checked="false"
-                    android:id="@+id/radio1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Social" />
-            </RadioGroup>
-
-        </LinearLayout>
-
-        <RadioGroup
-            android:id="@+id/radioGroup2"
-            android:visibility="gone"
-            android:layout_width="wrap_content"
+        <Spinner
+            android:id="@+id/spinner2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:orientation="horizontal">
+            android:layout_margin="20dp"
+            android:visibility="gone"></Spinner>
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Signle User" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Multi User" />
-        </RadioGroup>
-
-        <RadioGroup
-            android:visibility="gone"
-            android:id="@+id/radioGroup3"
-            android:layout_width="wrap_content"
+        <Spinner
+            android:id="@+id/spinner3"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Facebook" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Instagram" />
-        </RadioGroup>
+            android:layout_margin="20dp"
+            android:visibility="gone"></Spinner>
 
 
     </LinearLayout>
@@ -114,8 +61,22 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/btn_bg"
         android:text="Save"
         android:textColor="#fff" />
+
+    <RelativeLayout
+        android:id="@+id/wholeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.8"
+        android:background="#fff">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

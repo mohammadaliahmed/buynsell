@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-  >
+    android:background="#fff">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -12,8 +12,8 @@
 
         <ImageView
             android:id="@+id/imageView2"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="52dp"
@@ -23,9 +23,9 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/viewmyads"
-            android:layout_alignStart="@+id/viewmyads"
             android:layout_below="@+id/imageView2"
+            android:layout_alignStart="@+id/viewmyads"
+            android:layout_alignLeft="@+id/viewmyads"
             android:layout_marginTop="33dp"
             android:text="Ad has been successfully posted!"
             android:textSize="20sp" />
@@ -34,48 +34,55 @@
 
             android:id="@+id/viewmyads"
             android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/postnew"
+            android:layout_height="35dp"
             android:layout_below="@+id/textView2"
+            android:layout_alignStart="@+id/postnew"
+            android:layout_alignLeft="@+id/postnew"
             android:layout_marginTop="48dp"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/btn_bg"
+            android:inputType="text"
             android:text="View my ads"
-            android:textColor="#fff"
-            android:layout_alignLeft="@+id/postnew" />
+            android:textColor="#fff" />
 
         <Button
-            android:visibility="gone"
             android:id="@+id/sharead"
             android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/viewmyads"
+            android:layout_height="35dp"
             android:layout_below="@+id/viewmyads"
+            android:layout_alignStart="@+id/viewmyads"
             android:layout_marginTop="20dp"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/btn_bg"
+
+            android:inputType="text"
             android:text="Share ad"
-            android:textColor="#fff" />
+            android:textColor="#fff"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/postnew"
             android:layout_width="300dp"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:layout_below="@+id/sharead"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/btn_bg"
+
+            android:inputType="text"
             android:text="Post new Ad"
             android:textColor="#fff" />
 
         <Button
             android:id="@+id/back"
             android:layout_width="300dp"
-            android:background="@color/colorPrimary"
-            android:textColor="#fff"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
+
             android:layout_below="@+id/postnew"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:text="Back to homepage" />
+            android:background="@drawable/btn_bg"
+            android:inputType="text"
+            android:text="Back to homepage"
+            android:textColor="#fff" />
     </RelativeLayout>
 
 

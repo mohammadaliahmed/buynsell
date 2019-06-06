@@ -11,6 +11,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 
+import com.appsinventiv.buyandsell.Activities.Chat.ChatScreen;
 import com.appsinventiv.buyandsell.Activities.MainActivity;
 import com.appsinventiv.buyandsell.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -30,6 +31,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private NotificationCompat.Builder mBuilder;
     private String username;
     private String Id;
+    private String OtherUserId;
+    private String AdId;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -46,6 +49,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             message = map.get("Message");
             title = map.get("Title");
             type = map.get("Type");
+             AdId = map.get("AdId");
+            OtherUserId = map.get("OtherUserId");
 //            username = map.get("Username");
             Id = map.get("Id");
             handleNow(title, message, type);
@@ -70,9 +75,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         int num = (int) System.currentTimeMillis();
         /**Creates an explicit intent for an Activity in your app**/
         Intent resultIntent = null;
+        if (type.equalsIgnoreCase("Chat")) {
+            resultIntent = new Intent(this, ChatScreen.class);
+            resultIntent.putExtra("userId", OtherUserId);
+            resultIntent.putExtra("adId", AdId);
+        } else {
+            resultIntent = new Intent(this, MainActivity.class);
+        }
 
-        resultIntent = new Intent(this, MainActivity.class);
-        resultIntent.putExtra("username", Id);
 
         PendingIntent resultPendingIntent = PendingIntent.getActivity(this,
                 0 /* Request code */, resultIntent,

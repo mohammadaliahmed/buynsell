@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_margin="5dp"
+    android:background="@drawable/edit_text_background"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground">
+
+
+    <ImageView
+
+        android:id="@+id/ad_picture"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/placeholder" />
+
+    <TextView
+
+        android:id="@+id/ad_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="110dp"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:singleLine="true"
+        android:text=""
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/ad_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ad_title"
+        android:layout_marginLeft="110dp"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold" />
+
+    <com.like.LikeButton
+        android:id="@+id/heart_button"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        app:icon_size="20dp"
+        app:icon_type="heart"
+        app:is_enabled="true" />
+
+    <TextView
+
+        android:id="@+id/ad_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="5dp"
+        android:text=""
+        android:textColor="#000"
+        android:textSize="12sp" />
+
+
+</RelativeLayout>

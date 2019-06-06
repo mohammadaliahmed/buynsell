@@ -10,11 +10,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.appsinventiv.buyandsell.Activities.AdPage;
+import com.appsinventiv.buyandsell.Activities.Customer.Login;
 import com.appsinventiv.buyandsell.Models.AdDetails;
 import com.appsinventiv.buyandsell.R;
+import com.appsinventiv.buyandsell.Utils.CommonUtils;
+import com.appsinventiv.buyandsell.Utils.SharedPrefs;
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -28,32 +33,40 @@ public class MyAdsListAdapter extends RecyclerView.Adapter<MyAdsListAdapter.View
 
     List<AdDetails> itemList;
     Context context;
-    //    private List<String> adTitlesList = Collections.emptyList();
-    private LayoutInflater mInflater;
-    DatabaseReference mDatabase;
-
-    // data is passed into the constructor
-    public MyAdsListAdapter(Context context, ArrayList<AdDetails> itemList) {
-        this.mInflater = LayoutInflater.from(context);
+    HomepageAdsAdapter.AdapterCallbacks callbacks;
+    ArrayList<String> likedAds;
+    public MyAdsListAdapter(Context context, ArrayList<AdDetails> itemList, ArrayList<String> likedAds) {
         this.itemList = itemList;
         this.context = context;
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        this.likedAds = likedAds;
 
     }
 
+
     @Override
     public MyAdsListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.my_ad_item_layout, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.my_ad_item_layout, parent, false);
         MyAdsListAdapter.ViewHolder viewHolder = new MyAdsListAdapter.ViewHolder(view);
         return viewHolder;
+    }
+    public void setCallbacks(HomepageAdsAdapter.AdapterCallbacks callbacks) {
+        this.callbacks = callbacks;
     }
 
 
     @Override
     public void onBindViewHolder(final MyAdsListAdapter.ViewHolder holder, int position) {
         final AdDetails model = itemList.get(position);
+        if (likedAds.contains(model.getAdId())) {
+            holder.heart_button.setLiked(true);
+        } else {
+            holder.heart_button.setLiked(false);
+        }
+
+
         DecimalFormat formatter = new DecimalFormat("##,###,###");
         String formatedPrice = formatter.format(model.getPrice());
+        holder.ad_time.setText(CommonUtils.getFormattedDate(model.getTime()));
         holder.adTitleView.setText(model.getTitle());
         holder.adPriceView.setText("Rs " + formatedPrice);
         Glide.with(context).load(model.getPictures().get(0)).into(holder.adImageView);
@@ -70,6 +83,32 @@ public class MyAdsListAdapter extends RecyclerView.Adapter<MyAdsListAdapter.View
         });
 
 
+            holder.heart_button.setOnLikeListener(new OnLikeListener() {
+                @Override
+                public void liked(LikeButton likeButton) {
+                    if (SharedPrefs.getUsername().equalsIgnoreCase("")) {
+                        holder.heart_button.setLiked(false);
+                        context.startActivity(new Intent(context,Login.class));
+
+                    } else {
+                        model.setLikesCount(model.getLikesCount() + 1);
+
+                        callbacks.onLiked(model, true);
+                    }                }
+
+                @Override
+                public void unLiked(LikeButton likeButton) {
+                    model.setLikesCount(model.getLikesCount() - 1);
+
+                    callbacks.onLiked(model, false);
+
+                }
+            });
+
+
+
+
+
     }
 
     @Override
@@ -82,19 +121,25 @@ public class MyAdsListAdapter extends RecyclerView.Adapter<MyAdsListAdapter.View
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder {
         public View myView;
-        public TextView adTitleView, adPriceView;
+        public TextView adTitleView, adPriceView,ad_time;
         public ImageView adImageView;
+        LikeButton heart_button;
 
         public ViewHolder(View itemView) {
             super(itemView);
             adTitleView = itemView.findViewById(R.id.ad_title);
             adPriceView = itemView.findViewById(R.id.ad_price);
             adImageView = itemView.findViewById(R.id.ad_picture);
+            ad_time = itemView.findViewById(R.id.ad_time);
+            heart_button = itemView.findViewById(R.id.heart_button);
 
 
         }
 
 
+    }
+    public interface AdapterCallbacks {
+        public void onLiked(AdDetails model, boolean liked);
     }
 
 }

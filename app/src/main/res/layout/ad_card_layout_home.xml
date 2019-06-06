@@ -1,65 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_margin="5dp"
+    android:background="@drawable/edit_text_background"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardView_big_ad"
-
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:padding="5dp">
 
-        android:padding="5dp"
-        card_view:cardCornerRadius="2dp"
-        card_view:cardElevation="2dp">
+        <ImageView
 
-        <RelativeLayout
+            android:id="@+id/ad_picture"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_margin="1dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/placeholder" />
+
+
+        <TextView
+            android:id="@+id/ad_price"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ad_picture"
+            android:layout_margin="5dp"
+            android:text="Rs 200"
+            android:textColor="#000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-            <ImageView
+        <TextView
 
-                android:id="@+id/ad_picture"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/placeholder" />
+            android:id="@+id/ad_title"
+            android:layout_width="wrap_content"
 
-            <TextView
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ad_price"
+            android:layout_margin="5dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Mobile"
+            android:textColor="#000"
+            android:textSize="12sp" />
 
-                android:id="@+id/ad_title"
-                android:layout_width="wrap_content"
+        <com.like.LikeButton
+            android:id="@+id/heart_button"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_below="@id/ad_picture"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentRight="true"
+            app:icon_size="20dp"
 
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ad_picture"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="5dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:text=""
-                android:textSize="11sp" />
-
-            <TextView
-                android:id="@+id/ad_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ad_title"
-                android:layout_centerInParent="true"
-                android:layout_margin="5dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:text=""
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold" />
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
+            app:icon_type="heart"
+            app:is_enabled="true" />
+    </RelativeLayout>
 </RelativeLayout>

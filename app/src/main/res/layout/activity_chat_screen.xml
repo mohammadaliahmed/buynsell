@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:fitsSystemWindows="true">
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/chats"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/messageArea"
+        android:layout_below="@id/adLayout"
+        android:layout_marginBottom="1dp"
+
+        android:paddingBottom="10dp"
+        android:scrollbars="vertical">
+
+    </android.support.v7.widget.RecyclerView>
+
+
+    <RelativeLayout
+        android:id="@+id/messageArea"
+        android:layout_width="wrap_content"
+        android:layout_height="47dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="65dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/edit_text_background"
+        android:padding="5dp">
+
+        <EditText
+            android:id="@+id/message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toLeftOf="@id/pick"
+            android:background="@null"
+            android:hint="Your Response..."
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxHeight="100dp"
+
+            android:scrollbars="vertical" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/pick"
+            android:background="#e7e7e7"></View>
+
+        <ImageView
+            android:id="@+id/pick"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:src="@drawable/ic_menu_camera"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/send"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="13dp"
+        android:padding="4dp"
+        android:src="@drawable/ic_message_send"
+        android:visibility="visible" />
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/adLayout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+
+        android:layout_marginBottom="10dp"
+        android:elevation="2dp"
+        app:cardCornerRadius="1dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#fff">
+
+            <ImageView
+                android:id="@+id/adImage"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/placeholder" />
+
+            <TextView
+                android:id="@+id/adTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="90dp"
+                android:layout_marginTop="10dp"
+                android:maxLines="3"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/adPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/adTitle"
+                android:layout_marginLeft="90dp"
+                android:text="Rs"
+                android:textColor="@color/colorPrimary" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_arrow_view" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</RelativeLayout>

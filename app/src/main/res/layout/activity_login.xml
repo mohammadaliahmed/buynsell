@@ -43,11 +43,11 @@
         android:textColor="#fff"
         android:text="Login"
         android:id="@+id/login"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/btn_bg"
         android:inputType="text"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="40dp" />
     <TextView
         android:layout_margin="10dp"
         android:text="Dont have an account?"
@@ -59,7 +59,7 @@
         android:text="Signup"
         android:inputType="text"
         android:id="@+id/signup"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/btn_bg"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

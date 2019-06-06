@@ -1,4 +1,4 @@
-package com.appsinventiv.buyandsell.Activities;
+package com.appsinventiv.buyandsell.Activities.Customer;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.appsinventiv.buyandsell.Activities.MainActivity;
 import com.appsinventiv.buyandsell.Models.User;
 import com.appsinventiv.buyandsell.R;
 import com.appsinventiv.buyandsell.Utils.CommonUtils;
@@ -30,8 +31,8 @@ public class SignUp extends AppCompatActivity {
     DatabaseReference mDatabase;
     private PrefManager prefManager;
     ArrayList<String> userslist = new ArrayList<String>();
-    EditText e_fullname, e_username, e_email, e_password, e_phone, e_city;
-    String fullname, username, email, password, phone;
+    EditText e_fullname, e_username, e_email, e_password, e_phone, e_city, e_confirmPassword;
+    String fullname, username, email, password, phone, confirmPassword;
 
     ArrayList<String> usernameList = new ArrayList<>();
 
@@ -39,6 +40,7 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+        this.setTitle("Signup");
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         prefManager = new PrefManager(this);
@@ -56,6 +58,7 @@ public class SignUp extends AppCompatActivity {
         e_password = (EditText) findViewById(R.id.password);
         e_phone = (EditText) findViewById(R.id.phone);
         e_city = (EditText) findViewById(R.id.city);
+        e_confirmPassword = (EditText) findViewById(R.id.confirmPassword);
 
 
         signup = (Button) findViewById(R.id.signup);
@@ -72,6 +75,10 @@ public class SignUp extends AppCompatActivity {
                     e_email.setError("Please enter your email");
                 } else if (e_password.getText().toString().length() == 0) {
                     e_password.setError("Please enter your password");
+                } else if (e_confirmPassword.getText().toString().length() == 0) {
+                    e_confirmPassword.setError("Please enter password again");
+                } else if (!e_password.getText().toString().equalsIgnoreCase(e_confirmPassword.getText().toString())) {
+                    e_confirmPassword.setError("Password does not match");
                 } else if (e_phone.getText().toString().length() == 0) {
                     e_phone.setError("Please enter your phone number");
                 } else {
@@ -123,8 +130,8 @@ public class SignUp extends AppCompatActivity {
         if (userslist.contains("" + username)) {
             CommonUtils.showToast("Username is already taken\nPlease choose another");
         } else {
-            User user = new User(fullname, username, email,
-                    password, phone, SharedPrefs.getFcmKey(), System.currentTimeMillis());
+            final User user = new User(fullname, username, email,
+                    password, phone, SharedPrefs.getFcmKey(), System.currentTimeMillis(), false);
             mDatabase.child("Users")
                     .child(username)
                     .setValue(user)
@@ -132,10 +139,13 @@ public class SignUp extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid) {
                             CommonUtils.showToast("Thank you for registering");
+                            SharedPrefs.setUser(user);
                             SharedPrefs.setUsername(username);
+                            SharedPrefs.setPhone(phone);
                             SharedPrefs.setName(fullname);
                             SharedPrefs.setIsLoggedIn("yes");
-                            launchHomescreen();
+//                            launchHomescreen();
+                            launchPhoneVerficationScreen(phone);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -148,6 +158,11 @@ public class SignUp extends AppCompatActivity {
 
     }
 
+    private void launchPhoneVerficationScreen(String phone) {
+        Intent i=new Intent(SignUp.this,PhoneVerification.class);
+        i.putExtra("phone",phone);
+        startActivity(i);
+    }
     private void launchHomescreen() {
         prefManager.setFirstTimeLaunch(false);
         startActivity(new Intent(SignUp.this, MainActivity.class));

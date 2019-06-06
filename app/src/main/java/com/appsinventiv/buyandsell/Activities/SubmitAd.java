@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.appsinventiv.buyandsell.Activities.Categories.ChooseMainCategory;
 import com.appsinventiv.buyandsell.Adapters.SelectedImagesAdapter;
 import com.appsinventiv.buyandsell.Interface.AdObserver;
 import com.appsinventiv.buyandsell.Models.AdDetails;
@@ -77,6 +78,9 @@ public class SubmitAd extends AppCompatActivity implements AdObserver {
     String adminFcmKey;
     CheckBox checkbox;
 
+    public static ArrayList<String> categoryList = new ArrayList<>();
+
+    TextView category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +103,7 @@ public class SubmitAd extends AppCompatActivity implements AdObserver {
         adCover = new ArrayList<String>();
 
 
+        category = findViewById(R.id.category);
         pickPicture = (Button) findViewById(R.id.pickpicture);
         submitAd = (Button) findViewById(R.id.submit);
 
@@ -113,6 +118,13 @@ public class SubmitAd extends AppCompatActivity implements AdObserver {
 
         chooseCategoryText = (TextView) findViewById(R.id.choose_category);
 
+        category.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.abc=false;
+                startActivity(new Intent(SubmitAd.this, ChooseMainCategory.class));
+            }
+        });
 
         submitAd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,11 +145,12 @@ public class SubmitAd extends AppCompatActivity implements AdObserver {
                     checkbox.setError("");
                     CommonUtils.showToast("Please accept the terms and conditions");
 
+                } else if (categoryList.size() < 1) {
+                    CommonUtils.showToast("Please choose category");
                 } else {
                     submitAd();
 
                 }
-//                submitAd();
 
             }
         });
@@ -179,6 +192,18 @@ public class SubmitAd extends AppCompatActivity implements AdObserver {
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (categoryList.size() > 0) {
+            String cate = "";
+            for (String cat : categoryList) {
+                cate = cat + " > " + cate;
+            }
+            category.setText(cate);
+        }
     }
 
     private void initMatisse() {
@@ -229,8 +254,8 @@ public class SubmitAd extends AppCompatActivity implements AdObserver {
                     mSelected) {
                 selectedAdImages.add(new SelectedAdImages("" + img));
                 adapter.notifyDataSetChanged();
-                CompressImage compressImage = new CompressImage(SubmitAd.this);
-                imageUrl.add(compressImage.compressImage("" + img));
+//                CompressImage compressImage = new CompressImage(SubmitAd.this);
+                imageUrl.add(CompressImage.compressImage("" + img, SubmitAd.this));
             }
         }
         if (requestCode == 1) {
@@ -260,8 +285,7 @@ public class SubmitAd extends AppCompatActivity implements AdObserver {
         mDatabase.child("Ads").child("" + adId).setValue(new AdDetails(
                         adId, Adtitle, AdDescription, SharedPrefs.getUsername(), phonenumber, "",
                         System.currentTimeMillis(),
-                        Long.parseLong(price.getText().toString()),
-                        "category"
+                        Long.parseLong(price.getText().toString()), categoryList
                 )
         ).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

@@ -6,6 +6,8 @@ import android.preference.PreferenceManager;
 
 
 import com.appsinventiv.buyandsell.ApplicationClass;
+import com.appsinventiv.buyandsell.Models.User;
+import com.google.gson.Gson;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -24,6 +26,15 @@ public class SharedPrefs {
 
     }
 
+
+    public static void setPhone(String value) {
+
+        preferenceSetter("phone", value);
+    }
+
+    public static String getPhone() {
+        return preferenceGetter("phone");
+    }
 
     public static void setName(String value) {
 
@@ -60,6 +71,31 @@ public class SharedPrefs {
     public static String getFcmKey() {
         return preferenceGetter("fcmKey");
     }
+
+    public static void setPicUrl(String fcmKey) {
+        preferenceSetter("picUrl", fcmKey);
+    }
+
+    public static String getPicUrl() {
+        return preferenceGetter("picUrl");
+    }
+
+
+    public static void setUser(User model) {
+
+        Gson gson = new Gson();
+        String json = gson.toJson(model);
+        preferenceSetter("customerModel", json);
+    }
+
+    public static User getUser() {
+        Gson gson = new Gson();
+        User customer = gson.fromJson(preferenceGetter("customerModel"), User.class);
+        return customer;
+    }
+
+
+
 
     public static void preferenceSetter(String key, String value) {
         SharedPreferences pref = ApplicationClass.getInstance().getApplicationContext().getSharedPreferences("user", MODE_PRIVATE);

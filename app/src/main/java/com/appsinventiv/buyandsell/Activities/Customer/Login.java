@@ -1,12 +1,14 @@
-package com.appsinventiv.buyandsell.Activities;
+package com.appsinventiv.buyandsell.Activities.Customer;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.appsinventiv.buyandsell.Activities.MainActivity;
 import com.appsinventiv.buyandsell.Models.User;
 import com.appsinventiv.buyandsell.R;
 import com.appsinventiv.buyandsell.Utils.CommonUtils;
@@ -31,6 +33,7 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        this.setTitle("Login");
         password = findViewById(R.id.password);
         username = findViewById(R.id.username);
         signup = findViewById(R.id.signup);
@@ -48,7 +51,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (username.getText().length() == 0) {
-                    username.setError("Enter email");
+                    username.setError("Enter username");
                 } else if (password.getText().length() == 0) {
                     password.setError("Enter password");
                 } else {
@@ -101,11 +104,19 @@ public class Login extends AppCompatActivity {
                             User user = dataSnapshot.getValue(User.class);
                             if (user != null) {
                                 if (password.getText().toString().equals(user.getPassword())) {
+
+                                    SharedPrefs.setUser(user);
                                     CommonUtils.showToast("Login successful");
                                     SharedPrefs.setUsername(user.getUsername());
+                                    SharedPrefs.setPhone(user.getPhone());
                                     SharedPrefs.setName(user.getName());
-                                    SharedPrefs.setIsLoggedIn("yes");
-                                    launchHomescreen();
+
+                                    if (user.isNumberVerified()) {
+                                        launchHomescreen();
+
+                                    } else {
+                                        launchPhoneVerficationScreen(user.getPhone());
+                                    }
                                 } else {
                                     CommonUtils.showToast("Wrong password");
                                 }
@@ -120,7 +131,14 @@ public class Login extends AppCompatActivity {
                 });
     }
 
+    private void launchPhoneVerficationScreen(String phone) {
+        Intent i=new Intent(Login.this,PhoneVerification.class);
+        i.putExtra("phone",phone);
+        startActivity(i);
+    }
+
     private void launchHomescreen() {
+        SharedPrefs.setIsLoggedIn("yes");
         prefManager.setFirstTimeLaunch(false);
         startActivity(new Intent(Login.this, MainActivity.class));
 

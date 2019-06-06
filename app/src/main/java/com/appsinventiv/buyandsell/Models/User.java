@@ -10,12 +10,15 @@ public class User {
     String name, username, email, password, phone, city,fcmKey;
     long time;
     String picUrl;
+    String type1,type2;
+    boolean numberVerified;
+    String phoneCredentials;
 
     public User() {
     }
 
     public User(String name, String username, String email, String password,
-                String phone, String fcmKey, long time) {
+                String phone, String fcmKey, long time,boolean numberVerified) {
         this.name = name;
         this.username = username;
         this.email = email;
@@ -23,6 +26,39 @@ public class User {
         this.phone = phone;
         this.fcmKey = fcmKey;
         this.time = time;
+        this.numberVerified=numberVerified;
+    }
+
+    public String getPhoneCredentials() {
+        return phoneCredentials;
+    }
+
+    public void setPhoneCredentials(String phoneCredentials) {
+        this.phoneCredentials = phoneCredentials;
+    }
+
+    public boolean isNumberVerified() {
+        return numberVerified;
+    }
+
+    public void setNumberVerified(boolean numberVerified) {
+        this.numberVerified = numberVerified;
+    }
+
+    public String getType1() {
+        return type1;
+    }
+
+    public void setType1(String type1) {
+        this.type1 = type1;
+    }
+
+    public String getType2() {
+        return type2;
+    }
+
+    public void setType2(String type2) {
+        this.type2 = type2;
     }
 
     public String getPicUrl() {

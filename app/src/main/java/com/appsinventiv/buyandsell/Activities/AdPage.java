@@ -21,16 +21,23 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-
+import com.appsinventiv.buyandsell.Activities.Chat.ChatScreen;
+import com.appsinventiv.buyandsell.Activities.Customer.Login;
 import com.appsinventiv.buyandsell.Adapters.SliderAdapter;
 import com.appsinventiv.buyandsell.Models.AdDetails;
 import com.appsinventiv.buyandsell.Models.User;
 import com.appsinventiv.buyandsell.R;
+import com.appsinventiv.buyandsell.Utils.CommonUtils;
+import com.appsinventiv.buyandsell.Utils.SharedPrefs;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
+import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 
 import java.text.DecimalFormat;
@@ -44,17 +51,20 @@ public class AdPage extends AppCompatActivity {
     SliderAdapter adapter;
     String adId;
     ProgressDialog progressDialog;
-    LinearLayout call, sms, whatsapp;
+    LinearLayout call, sms, whatsapp, chat;
     String phoneNumber;
     DatabaseReference mDatabase;
     ImageView back;
     String adBy;
     LinearLayout favourite, report, shareAd;
-    AdDetails adModel;
+    //    AdDetails adModel;
     RelativeLayout wholeView;
     ScrollView scrollView;
     AdDetails adDetails;
-
+    LinearLayout comments;
+    LikeButton heart_button;
+    TextView commentsCount, likesCount;
+    DotsIndicator dots_indicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +78,16 @@ public class AdPage extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
         setStatusBarColor(true);
+        dots_indicator = findViewById(R.id.dots_indicator);
+        heart_button = findViewById(R.id.heart_button);
 
+        comments = findViewById(R.id.comments);
         back = findViewById(R.id.back);
         report = findViewById(R.id.report);
         wholeView = findViewById(R.id.wholeView);
         scrollView = findViewById(R.id.scrollView2);
+        commentsCount = findViewById(R.id.commentsCount);
+        likesCount = findViewById(R.id.likesCount);
 
         progressDialog = new ProgressDialog(AdPage.this);
         title = findViewById(R.id.title);
@@ -89,6 +104,7 @@ public class AdPage extends AppCompatActivity {
         call = findViewById(R.id.call);
         sms = findViewById(R.id.sms);
         whatsapp = findViewById(R.id.whatsapp);
+        chat = findViewById(R.id.chat);
         location = findViewById(R.id.location);
         favourite = findViewById(R.id.favourite);
         shareAd = findViewById(R.id.sharead);
@@ -99,8 +115,83 @@ public class AdPage extends AppCompatActivity {
         Intent intent = getIntent();
         adId = intent.getStringExtra("adId");
 
+        comments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (SharedPrefs.getIsLoggedIn().equalsIgnoreCase("yes")) {
+                    Intent i = new Intent(AdPage.this, CommentsActivity.class);
+                    i.putExtra("adId", adId);
+                    startActivity(i);
+                } else {
+                    startActivity(new Intent(AdPage.this, Login.class));
+                }
+            }
+        });
+
+        chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (SharedPrefs.getIsLoggedIn().equalsIgnoreCase("yes")) {
+                    if (adDetails.getUsername().equalsIgnoreCase(SharedPrefs.getUsername())) {
+                        CommonUtils.showToast("This is your own ad");
+                    } else {
+                        Intent i = new Intent(AdPage.this, ChatScreen.class);
+                        i.putExtra("adId", adId);
+                        i.putExtra("userId", adDetails.getUsername());
+                        startActivity(i);
+                    }
+                } else {
+                    startActivity(new Intent(AdPage.this, Login.class));
+                }
+
+            }
+        });
 
         init(adId);
+        if (SharedPrefs.getUsername().equalsIgnoreCase("")) {
+            startActivity(new Intent(AdPage.this, Login.class));
+
+        } else if (SharedPrefs.getIsLoggedIn().equalsIgnoreCase("yes")) {
+            heart_button.setOnLikeListener(new OnLikeListener() {
+                @Override
+                public void liked(LikeButton likeButton) {
+//                    adDetails.setLikesCount(adDetails.getLikesCount() );
+
+                    mDatabase.child("Users").child(SharedPrefs.getUsername()).child("likedAds").child(adId).setValue(adId).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            CommonUtils.showToast("Marked as favorite");
+                            mDatabase.child("Ads").child(adId).child("likesCount").setValue(adDetails.getLikesCount()+1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    adDetails.setLikesCount(adDetails.getLikesCount());
+                                }
+                            });
+
+                        }
+                    });
+                }
+
+                @Override
+                public void unLiked(LikeButton likeButton) {
+//                    adDetails.setLikesCount(adDetails.getLikesCount() - 1);
+
+                    mDatabase.child("Users").child(SharedPrefs.getUsername()).child("likedAds").child(adId).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            CommonUtils.showToast("Removed from favorites");
+                            mDatabase.child("Ads").child(adId).child("likesCount").setValue(adDetails.getLikesCount() - 1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                }
+                            });
+
+
+                        }
+                    });
+                }
+            });
+        }
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -129,14 +220,13 @@ public class AdPage extends AppCompatActivity {
         });
 
 
-
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
-
+        getLikedAdsFromDB();
 
 
     }
@@ -177,13 +267,11 @@ public class AdPage extends AppCompatActivity {
     }
 
 
-
-
     public void init(String id) {
         mViewPager = findViewById(R.id.viewPager);
 
 
-        mDatabase.child("Ads").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Ads").child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot != null) {
@@ -191,7 +279,7 @@ public class AdPage extends AppCompatActivity {
                     scrollView.setVisibility(View.VISIBLE);
                     adDetails = dataSnapshot.getValue(AdDetails.class);
                     if (adDetails != null) {
-                        adModel = adDetails;
+//                        adModel = adDetails;
                         DecimalFormat formatter = new DecimalFormat("#,###,###");
                         String formatedPrice = formatter.format(adDetails.getPrice());
                         title.setText(adDetails.getTitle());
@@ -199,14 +287,18 @@ public class AdPage extends AppCompatActivity {
                         price1.setText("Rs " + formatedPrice);
                         time.setText(getFormattedDate(AdPage.this, adDetails.getTime()));
                         date1.setText(getFormattedDate(AdPage.this, adDetails.getTime()));
+                        category.setText("" + adDetails.getCategoryList());
+                        commentsCount.setText(adDetails.getCommentsCount() + " Comments");
+                        likesCount.setText(adDetails.getLikesCount() + "");
 
                         description.setText("" + adDetails.getDescription());
                         username.setText(adDetails.getUsername());
                         adBy = adDetails.getUsername();
                         getUserCountry(adBy);
 
-                        adapter = new SliderAdapter(AdPage.this, adModel.getPictures());
+                        adapter = new SliderAdapter(AdPage.this, adDetails.getPictures());
                         mViewPager.setAdapter(adapter);
+                        dots_indicator.setViewPager(mViewPager);
 
 
                         phoneNumber = adDetails.getPhone();
@@ -252,6 +344,26 @@ public class AdPage extends AppCompatActivity {
 
     }
 
+    private void getLikedAdsFromDB() {
+        mDatabase.child("Users").child(SharedPrefs.getUsername()).child("likedAds").child(adId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    heart_button.setLiked(true);
+
+
+                } else {
+                    heart_button.setLiked(false);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -284,7 +396,6 @@ public class AdPage extends AppCompatActivity {
             return DateFormat.format("dd MMM , h:mm aa", smsTime).toString();
         }
     }
-
 
 
     @Override

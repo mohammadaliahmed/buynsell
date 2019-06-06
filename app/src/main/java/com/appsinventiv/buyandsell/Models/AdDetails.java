@@ -1,5 +1,6 @@
 package com.appsinventiv.buyandsell.Models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,7 +11,8 @@ public class AdDetails {
     String adId, title, description, username, phone, picUrl;
     long time, price;
     List<String> pictures;
-    String category;
+    ArrayList<String> categoryList;
+    int likesCount,commentsCount;
 
     public AdDetails() {
     }
@@ -18,7 +20,7 @@ public class AdDetails {
     public AdDetails(String adId, String title, String description, String username,
                      String phone, String picUrl,
                      long time,
-                     long price,  String category) {
+                     long price,ArrayList<String> categoryList) {
         this.adId = adId;
         this.title = title;
         this.description = description;
@@ -27,8 +29,32 @@ public class AdDetails {
         this.picUrl = picUrl;
         this.time = time;
         this.price = price;
-        this.category = category;
+        this.categoryList=categoryList;
 
+    }
+
+    public int getLikesCount() {
+        return likesCount;
+    }
+
+    public void setLikesCount(int likesCount) {
+        this.likesCount = likesCount;
+    }
+
+    public int getCommentsCount() {
+        return commentsCount;
+    }
+
+    public void setCommentsCount(int commentsCount) {
+        this.commentsCount = commentsCount;
+    }
+
+    public ArrayList<String> getCategoryList() {
+        return categoryList;
+    }
+
+    public void setCategoryList(ArrayList<String> categoryList) {
+        this.categoryList = categoryList;
     }
 
     public String getAdId() {
@@ -103,11 +129,5 @@ public class AdDetails {
         this.pictures = pictures;
     }
 
-    public String getCategory() {
-        return category;
-    }
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
 }
