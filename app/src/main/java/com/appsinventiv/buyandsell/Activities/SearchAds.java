@@ -39,17 +39,35 @@ public class SearchAds extends AppCompatActivity {
     DatabaseReference mDatabase;
     private ArrayList<String> likedAds = new ArrayList<>();
 
+
+    long maxPrice = 999999999;
+    long minPrice = 0;
+
+    public String location, category, word;
+    TextView noAds;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_ads);
+        setContentView(R.layout.activity_search_ads);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        this.setTitle("Search");
+        this.setTitle("All ads");
+
+        maxPrice = getIntent().getLongExtra("max", 99999999l);
+        minPrice = getIntent().getLongExtra("min", 0l);
+        location = getIntent().getStringExtra("location");
+        category = getIntent().getStringExtra("category");
+        word = getIntent().getStringExtra("word");
+        if (word == null) {
+            word = "";
+        }
+
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        noAds = findViewById(R.id.noAds);
         recyclerview = findViewById(R.id.recyclerview);
         recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         adapter = new SearchAdsAdapter(this, adsList, likedAds);
@@ -84,7 +102,7 @@ public class SearchAds extends AppCompatActivity {
         }
 
         getAdsFromDB();
-        getLikedAdsFromDB();
+//        getLikedAdsFromDB();
     }
 
 
@@ -121,9 +139,36 @@ public class SearchAds extends AppCompatActivity {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         AdDetails ad = snapshot.getValue(AdDetails.class);
                         if (ad != null) {
+                            if (ad.getTitle().toLowerCase().contains(word.toLowerCase())) {
+                                if (ad.getPrice() >= minPrice && ad.getPrice() <= maxPrice) {
+                                    if (category == null) {
+                                        if (location == null) {
+                                            adsList.add(ad);
+                                        } else if (ad.getCity() != null && ad.getCity().equalsIgnoreCase(location)) {
+                                            adsList.add(ad);
+                                        }
+                                    } else if (ad.getCategoryList().contains(category)) {
+                                        if (location == null) {
+//                                            if (ad.getCity().equalsIgnoreCase(SharedPrefs.getUser().getCity())) {
+                                            adsList.add(ad);
+//                                            }
 
-                            adsList.add(ad);
+                                        } else if (ad.getCity() != null && ad.getCity().equalsIgnoreCase(location)) {
+                                            adsList.add(ad);
+
+                                        }
+                                    }
+                                }
+                            }
+
                         }
+
+
+                    }
+                    if (adsList.size() > 0) {
+                        noAds.setVisibility(View.GONE);
+                    } else {
+                        noAds.setVisibility(View.VISIBLE);
                     }
                     Collections.sort(adsList, new Comparator<AdDetails>() {
                         @Override
@@ -138,7 +183,6 @@ public class SearchAds extends AppCompatActivity {
                     adapter.updateList(adsList);
 
                     adapter.notifyDataSetChanged();
-
                 }
             }
 
@@ -183,6 +227,11 @@ public class SearchAds extends AppCompatActivity {
 
 
             finish();
+        }
+        if (item.getItemId() == R.id.action_filter) {
+            startActivity(new Intent(SearchAds.this, Filters.class));
+
+//            finish();
         }
 
         return super.onOptionsItemSelected(item);

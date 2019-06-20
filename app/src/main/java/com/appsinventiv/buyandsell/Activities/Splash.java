@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.appsinventiv.buyandsell.Activities.Customer.SignUp;
+import com.appsinventiv.buyandsell.Activities.Locations.ChooseLocation;
 import com.appsinventiv.buyandsell.R;
 import com.appsinventiv.buyandsell.Utils.CommonUtils;
 
@@ -40,7 +42,12 @@ public class Splash extends AppCompatActivity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-
+                SubmitAd.categoryList.clear();
+                SubmitAccountAd.categoryList.clear();
+                Filters.location = null;
+                Filters.category = null;
+                SignUp.location = null;
+                SubmitAd.categoryList.clear();
                 Intent i = new Intent(Splash.this, MainActivity.class);
                 startActivity(i);
 

@@ -47,7 +47,7 @@
             android:background="@null"
             android:hint="Your Response..."
             android:inputType="textCapSentences|textMultiLine"
-            android:maxHeight="100dp"
+            android:maxHeight="200dp"
 
             android:scrollbars="vertical" />
 

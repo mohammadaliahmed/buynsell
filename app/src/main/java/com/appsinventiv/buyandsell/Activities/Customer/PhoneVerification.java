@@ -100,6 +100,7 @@ public class PhoneVerification extends AppCompatActivity {
                     @Override
                     public void onCodeSent(String verificationId,
                                            PhoneAuthProvider.ForceResendingToken token) {
+
                         CommonUtils.showToast("Code sent");
                     }
 
@@ -116,7 +117,7 @@ public class PhoneVerification extends AppCompatActivity {
     private void launchHomescreen() {
         SharedPrefs.setIsLoggedIn("yes");
         prefManager.setFirstTimeLaunch(false);
-        startActivity(new Intent(PhoneVerification.this, MainActivity.class));
+        startActivity(new Intent(PhoneVerification.this, AccountSettings.class));
 
 
         finish();

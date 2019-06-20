@@ -26,7 +26,7 @@ public class ChooseMainCategory extends AppCompatActivity {
     MainCategoryAdapter adapter;
     public static Activity activity;
 
-
+    boolean abc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,11 +41,15 @@ public class ChooseMainCategory extends AppCompatActivity {
         }
         mDatabase = FirebaseDatabase.getInstance().getReference();
         recycler = findViewById(R.id.recycler);
+        abc=getIntent().getBooleanExtra("abc",false);
 
 
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         adapter = new MainCategoryAdapter(this, itemList);
         recycler.setAdapter(adapter);
+
+        adapter.setAbc(abc);
+
         getMainCategoriesFromDB();
 
 

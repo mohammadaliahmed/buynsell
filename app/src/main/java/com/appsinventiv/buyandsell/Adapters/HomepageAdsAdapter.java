@@ -76,16 +76,19 @@ public class HomepageAdsAdapter extends RecyclerView.Adapter<HomepageAdsAdapter.
         String formatedPrice = formatter.format(model.getPrice());
         holder.adTitleView.setText(model.getTitle());
         holder.adPriceView.setText("Rs " + formatedPrice);
-        Glide.with(context).load(model.getPictures().get(0)).into(holder.adImageView);
 
+        if (model.getPictures() != null && model.getPictures().size() > 0) {
+            Glide.with(context).load(model.getPictures().get(0)).into(holder.adImageView);
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(context, AdPage.class);
 
                 i.putExtra("adId", "" + model.getAdId());
+                i.putExtra("type", model.getAdType());
+
                 context.startActivity(i);
-////
             }
         });
 

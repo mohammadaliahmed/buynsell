@@ -2,16 +2,13 @@ package com.appsinventiv.buyandsell.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.appsinventiv.buyandsell.Activities.Customer.AccountSettings;
 import com.appsinventiv.buyandsell.Adapters.HomepageAdsAdapter;
@@ -29,14 +26,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class MyAds extends AppCompatActivity {
+public class MyAccountAds extends AppCompatActivity {
     RecyclerView recyclerview;
     private ArrayList<AdDetails> adsList = new ArrayList<>();
     MyAdsListAdapter adapter;
     DatabaseReference mDatabase;
     private ArrayList<String> likedAds = new ArrayList<>();
     ImageView uploadAd;
-    TextView noAds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +42,10 @@ public class MyAds extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        this.setTitle("My Ads");
+        this.setTitle("My Account");
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         uploadAd = findViewById(R.id.uploadAd);
-        noAds = findViewById(R.id.noAds);
         recyclerview = findViewById(R.id.recyclerview);
 //        recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerview.setLayoutManager(new GridLayoutManager(this, 2));
@@ -84,15 +79,13 @@ public class MyAds extends AppCompatActivity {
         uploadAd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if(SharedPrefs.getUser().getMainCategory()!=null&&!SharedPrefs.getUser().getMainCategory().equalsIgnoreCase("")) {
-                SubmitAd.categoryList.clear();
-                SubmitAccountAd.categoryList.clear();
-                startActivity(new Intent(MyAds.this, SubmitAd.class));
-//                }else{
-//                    CommonUtils.showToast("Please complete settings first");
-//                    startActivity(new Intent(MyAds.this, AccountSettings.class));
-//
-//                }
+                if (SharedPrefs.getUser().getMainCategory() != null && !SharedPrefs.getUser().getMainCategory().equalsIgnoreCase("")) {
+                    startActivity(new Intent(MyAccountAds.this, SubmitAccountAd.class));
+                } else {
+                    CommonUtils.showToast("Please complete settings first");
+                    startActivity(new Intent(MyAccountAds.this, AccountSettings.class));
+
+                }
             }
         });
 
@@ -136,14 +129,9 @@ public class MyAds extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
                     adsList.clear();
-                    if (dataSnapshot.child("adsPosted").exists()) {
-                        for (DataSnapshot snapshot : dataSnapshot.child("adsPosted").getChildren()) {
-                            getAdsFromDB(snapshot.getKey());
-                        }
-                    } else {
-                        noAds.setVisibility(View.VISIBLE);
+                    for (DataSnapshot snapshot : dataSnapshot.child("accountAdsPosted").getChildren()) {
+                        getAccountsAdsFromDB(snapshot.getKey());
                     }
-
 
                 }
             }

@@ -100,6 +100,9 @@ public class SearchAdsAdapter extends RecyclerView.Adapter<SearchAdsAdapter.View
         holder.adTitleView.setText(model.getTitle());
         holder.adPriceView.setText("Rs " + formatedPrice);
         Glide.with(context).load(model.getPictures().get(0)).into(holder.adImageView);
+        if (model.getCity() != null) {
+            holder.location.setText(model.getCity());
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,32 +110,34 @@ public class SearchAdsAdapter extends RecyclerView.Adapter<SearchAdsAdapter.View
                 Intent i = new Intent(context, AdPage.class);
 
                 i.putExtra("adId", "" + model.getAdId());
+                i.putExtra("type", model.getAdType());
+
                 context.startActivity(i);
             }
         });
 
-            holder.heart_button.setOnLikeListener(new OnLikeListener() {
-                @Override
-                public void liked(LikeButton likeButton) {
-                    if (SharedPrefs.getUsername().equalsIgnoreCase("")) {
-                        holder.heart_button.setLiked(false);
-                        context.startActivity(new Intent(context,Login.class));
+        holder.heart_button.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                if (SharedPrefs.getUsername().equalsIgnoreCase("")) {
+                    holder.heart_button.setLiked(false);
+                    context.startActivity(new Intent(context, Login.class));
 
-                    } else {
-                        model.setLikesCount(model.getLikesCount() + 1);
+                } else {
+                    model.setLikesCount(model.getLikesCount() + 1);
 
-                        callbacks.onLiked(model, true);
-                    }                }
-
-                @Override
-                public void unLiked(LikeButton likeButton) {
-                    model.setLikesCount(model.getLikesCount() - 1);
-
-                    callbacks.onLiked(model, false);
-
+                    callbacks.onLiked(model, true);
                 }
-            });
+            }
 
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                model.setLikesCount(model.getLikesCount() - 1);
+
+                callbacks.onLiked(model, false);
+
+            }
+        });
 
 
     }
@@ -147,7 +152,7 @@ public class SearchAdsAdapter extends RecyclerView.Adapter<SearchAdsAdapter.View
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder {
         public View myView;
-        public TextView adTitleView, adPriceView;
+        public TextView adTitleView, adPriceView, location;
         public ImageView adImageView;
         LikeButton heart_button;
 
@@ -157,6 +162,7 @@ public class SearchAdsAdapter extends RecyclerView.Adapter<SearchAdsAdapter.View
             adPriceView = itemView.findViewById(R.id.ad_price);
             adImageView = itemView.findViewById(R.id.ad_picture);
             heart_button = itemView.findViewById(R.id.heart_button);
+            location = itemView.findViewById(R.id.location);
 
 
         }

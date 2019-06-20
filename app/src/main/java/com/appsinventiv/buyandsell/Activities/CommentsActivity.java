@@ -49,6 +49,8 @@ public class CommentsActivity extends AppCompatActivity {
     CardView adLayout;
     private AdDetails adDetails;
     int commentsCount = 0;
+    private String adType;
+    boolean adTyp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,9 @@ public class CommentsActivity extends AppCompatActivity {
         }
         this.setTitle("Comments");
         adId = getIntent().getStringExtra("adId");
+        adType = getIntent().getStringExtra("type");
+
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
         recyclerView = findViewById(R.id.recycler);
         comment = findViewById(R.id.comment);
@@ -73,13 +78,21 @@ public class CommentsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(CommentsActivity.this, AdPage.class);
                 intent.putExtra("adId", adId);
+                intent.putExtra("type", adDetails.getAdType());
                 startActivity(intent);
                 finish();
             }
         });
 
         getCommentsFromDB();
-        getAdDetailsFromDB();
+        if(adType==null || adType.equalsIgnoreCase("simple") ){
+            getAdDetailsFromDB(false);
+            adTyp=false;
+        }else if(adType.equalsIgnoreCase("account")){
+            getAdDetailsFromDB(true);
+            adTyp=true;
+        }
+
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         adapter = new CommentsAdapter(this, itemList);
@@ -130,8 +143,8 @@ public class CommentsActivity extends AppCompatActivity {
 
     }
 
-    private void getAdDetailsFromDB() {
-        mDatabase.child("Ads").child(adId).addValueEventListener(new ValueEventListener() {
+    private void getAdDetailsFromDB(boolean type) {
+        mDatabase.child(type?"AccountAds":"Ads").child(adId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
@@ -187,6 +200,10 @@ public class CommentsActivity extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                     recyclerView.scrollToPosition(itemList.size() - 1);
                 }
+                else{
+                    itemList.clear();
+                    adapter.notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -220,7 +237,7 @@ public class CommentsActivity extends AppCompatActivity {
     }
 
     private void updateCommentCount() {
-        mDatabase.child("Ads").child(adId).child("commentsCount").setValue(itemList.size() ).addOnSuccessListener(new OnSuccessListener<Void>() {
+        mDatabase.child(adTyp?"AccountAds":"Ads").child(adId).child("commentsCount").setValue(itemList.size() ).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 adapter.notifyDataSetChanged();

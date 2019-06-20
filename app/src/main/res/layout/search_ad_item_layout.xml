@@ -47,6 +47,19 @@
         android:textColor="@color/colorPrimary"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ad_price"
+        android:layout_marginLeft="110dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="Lahore"
+        android:textSize="12sp"
+        />
+
     <com.like.LikeButton
         android:id="@+id/heart_button"
         android:layout_width="20dp"

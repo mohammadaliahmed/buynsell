@@ -7,6 +7,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.appsinventiv.buyandsell.Adapters.HomepageAdsAdapter;
 import com.appsinventiv.buyandsell.Adapters.MyAdsListAdapter;
@@ -31,20 +33,21 @@ public class FavoriteAds extends AppCompatActivity {
     MyAdsListAdapter adapter;
     DatabaseReference mDatabase;
     private ArrayList<String> likedAds = new ArrayList<>();
-
+    TextView noAds;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_ads);
+        setContentView(R.layout.activity_favorite_ads);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
         this.setTitle("Favorite Ads");
+        noAds = findViewById(R.id.noAds);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         recyclerview = findViewById(R.id.recyclerview);
-        recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+//        recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerview.setLayoutManager(new GridLayoutManager(this,2));
         adapter = new MyAdsListAdapter(this, adsList, likedAds);
         recyclerview.setAdapter(adapter);
@@ -118,10 +121,17 @@ public class FavoriteAds extends AppCompatActivity {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         getAdsFromDB(snapshot.getKey());
                     }
+                    if(adsList.size()>0){
+                        noAds.setVisibility(View.GONE);
+                    }else{
+                        noAds.setVisibility(View.VISIBLE);
+                    }
 
                 }else{
+
                     adsList.clear();
                     adapter.notifyDataSetChanged();
+                    noAds.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -142,7 +152,11 @@ public class FavoriteAds extends AppCompatActivity {
 
                         adsList.add(ad);
                     }
-
+                    if(adsList.size()>0){
+                        noAds.setVisibility(View.GONE);
+                    }else{
+                        noAds.setVisibility(View.VISIBLE);
+                    }
                     adapter.notifyDataSetChanged();
 
                 }

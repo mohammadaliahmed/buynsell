@@ -13,6 +13,8 @@ public class AdDetails {
     List<String> pictures;
     ArrayList<String> categoryList;
     int likesCount,commentsCount;
+    String city;
+    String adType;
 
     public AdDetails() {
     }
@@ -20,7 +22,7 @@ public class AdDetails {
     public AdDetails(String adId, String title, String description, String username,
                      String phone, String picUrl,
                      long time,
-                     long price,ArrayList<String> categoryList) {
+                     long price,ArrayList<String> categoryList,String city,String adType) {
         this.adId = adId;
         this.title = title;
         this.description = description;
@@ -30,7 +32,25 @@ public class AdDetails {
         this.time = time;
         this.price = price;
         this.categoryList=categoryList;
+        this.city=city;
+        this.adType=adType;
 
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getAdType() {
+        return adType;
+    }
+
+    public void setAdType(String adType) {
+        this.adType = adType;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public int getLikesCount() {

@@ -1,6 +1,7 @@
 package com.appsinventiv.buyandsell.Models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by AliAh on 29/12/2017.
@@ -13,12 +14,13 @@ public class User {
     String type1,type2;
     boolean numberVerified;
     String phoneCredentials;
+    String mainCategory;
 
     public User() {
     }
 
     public User(String name, String username, String email, String password,
-                String phone, String fcmKey, long time,boolean numberVerified) {
+                String phone, String fcmKey, long time,boolean numberVerified,String city,String mainCategory) {
         this.name = name;
         this.username = username;
         this.email = email;
@@ -27,6 +29,16 @@ public class User {
         this.fcmKey = fcmKey;
         this.time = time;
         this.numberVerified=numberVerified;
+        this.city=city;
+        this.mainCategory=mainCategory;
+    }
+
+    public String getMainCategory() {
+        return mainCategory;
+    }
+
+    public void setMainCategory(String mainCategory) {
+        this.mainCategory = mainCategory;
     }
 
     public String getPhoneCredentials() {

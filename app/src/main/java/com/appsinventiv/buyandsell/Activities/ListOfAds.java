@@ -2,6 +2,7 @@ package com.appsinventiv.buyandsell.Activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -36,7 +37,7 @@ public class ListOfAds extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_ads);
+        setContentView(R.layout.activity_list_of_ads);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -47,7 +48,9 @@ public class ListOfAds extends AppCompatActivity {
         this.setTitle(category);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         recyclerview = findViewById(R.id.recyclerview);
-        recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+//        recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerview.setLayoutManager(new GridLayoutManager(this, 2));
+
         adapter = new MyAdsListAdapter(this, adsList, likedAds);
         recyclerview.setAdapter(adapter);
         adapter.setCallbacks(new HomepageAdsAdapter.AdapterCallbacks() {
@@ -118,9 +121,14 @@ public class ListOfAds extends AppCompatActivity {
                         AdDetails ad = snapshot.getValue(AdDetails.class);
                         if (ad != null) {
                             if (category.contains("All ads")) {
-                                adsList.add(ad);
+                                if (ad.getCity() != null && ad.getCity().equalsIgnoreCase(SharedPrefs.getUser().getCity())) {
+                                    adsList.add(ad);
+                                }
                             } else if (ad.getCategoryList().contains(category)) {
-                                adsList.add(ad);
+                                if (ad.getCity() != null && ad.getCity().equalsIgnoreCase(SharedPrefs.getUser().getCity())) {
+
+                                    adsList.add(ad);
+                                }
                             }
                         }
                     }

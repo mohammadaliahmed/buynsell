@@ -77,6 +77,8 @@ public class MyAdsListAdapter extends RecyclerView.Adapter<MyAdsListAdapter.View
                 Intent i = new Intent(context, AdPage.class);
 
                 i.putExtra("adId", "" + model.getAdId());
+                i.putExtra("type", model.getAdType());
+
                 context.startActivity(i);
 ////
             }

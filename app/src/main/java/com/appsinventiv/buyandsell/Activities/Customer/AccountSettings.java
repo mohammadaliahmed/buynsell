@@ -19,8 +19,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.appsinventiv.buyandsell.Activities.Categories.ChooseMainCategory;
+import com.appsinventiv.buyandsell.Activities.MainActivity;
+import com.appsinventiv.buyandsell.Activities.SubmitAd;
 import com.appsinventiv.buyandsell.Models.User;
 import com.appsinventiv.buyandsell.R;
 import com.appsinventiv.buyandsell.Utils.CommonUtils;
@@ -63,6 +67,9 @@ public class AccountSettings extends AppCompatActivity {
     StorageReference mStorageRef;
     RelativeLayout wholeLayout;
 
+    TextView category;
+    public static String maincategory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +87,7 @@ public class AccountSettings extends AppCompatActivity {
 
 
         wholeLayout = findViewById(R.id.wholeLayout);
+        category = findViewById(R.id.category);
         pickPicture = findViewById(R.id.pickPicture);
         pickPicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +111,25 @@ public class AccountSettings extends AppCompatActivity {
         spinner3 = findViewById(R.id.spinner3);
         setupSpinner1();
 
+        category.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.abc = false;
+                Intent i = new Intent(AccountSettings.this, ChooseMainCategory.class);
+                i.putExtra("abc", true);
+                startActivity(i);
+            }
+        });
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(maincategory!=null){
+            category.setText("Category: "+maincategory);
+        }
 
     }
 
@@ -114,10 +141,14 @@ public class AccountSettings extends AppCompatActivity {
         } else {
             mDatabase.child("Users").child(SharedPrefs.getUsername()).child("name").setValue(name.getText().toString());
             mDatabase.child("Users").child(SharedPrefs.getUsername()).child("type1").setValue(type1);
+            mDatabase.child("Users").child(SharedPrefs.getUsername()).child("mainCategory").setValue(maincategory);
             mDatabase.child("Users").child(SharedPrefs.getUsername()).child("type2").setValue(type2).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     CommonUtils.showToast("Updated!");
+                    User user = SharedPrefs.getUser();
+                    user.setMainCategory(maincategory);
+                    SharedPrefs.setUser(user);
                 }
             });
             if (imageUrl.size() > 0) {
@@ -151,7 +182,7 @@ public class AccountSettings extends AppCompatActivity {
                             public void onSuccess(Void aVoid) {
                                 CommonUtils.showToast("Picture Uploaded");
                                 wholeLayout.setVisibility(View.GONE);
-                                SharedPrefs.setPicUrl(""+downloadUrl);
+                                SharedPrefs.setPicUrl("" + downloadUrl);
                             }
                         });
 
@@ -178,7 +209,7 @@ public class AccountSettings extends AppCompatActivity {
             Glide.with(AccountSettings.this).load(mSelected.get(0)).into(pickPicture);
             for (Uri img :
                     mSelected) {
-                imageUrl.add(CompressImage.compressImage("" + img,AccountSettings.this));
+                imageUrl.add(CompressImage.compressImage("" + img, AccountSettings.this));
             }
         }
 
@@ -310,11 +341,11 @@ public class AccountSettings extends AppCompatActivity {
                         spinner2.setVisibility(View.VISIBLE);
                         setupSpinner2();
                         wholeLayout.setVisibility(View.GONE);
-                        if(user.getPicUrl()!=null) {
+                        if (user.getPicUrl() != null) {
                             try {
                                 Glide.with(AccountSettings.this).load(user.getPicUrl()).into(pickPicture);
 
-                            }catch (IllegalArgumentException e){
+                            } catch (IllegalArgumentException e) {
                                 e.printStackTrace();
                             }
                         }

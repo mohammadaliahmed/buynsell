@@ -163,6 +163,7 @@
     <ImageView
         android:id="@+id/uploadAd"
         android:layout_width="60dp"
+        android:visibility="gone"
         android:layout_height="60dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"

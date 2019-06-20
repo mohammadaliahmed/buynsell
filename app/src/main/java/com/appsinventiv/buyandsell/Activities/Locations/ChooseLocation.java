@@ -1,4 +1,4 @@
-package com.appsinventiv.buyandsell.Activities.Categories;
+package com.appsinventiv.buyandsell.Activities.Locations;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,10 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.appsinventiv.buyandsell.Activities.Filters;
+import com.appsinventiv.buyandsell.Activities.Categories.CategoryAdapter;
+import com.appsinventiv.buyandsell.Activities.Categories.ChooseMainCategory;
 import com.appsinventiv.buyandsell.Activities.ListOfAds;
 import com.appsinventiv.buyandsell.Activities.MainActivity;
-import com.appsinventiv.buyandsell.Activities.SubmitAccountAd;
 import com.appsinventiv.buyandsell.Activities.SubmitAd;
 import com.appsinventiv.buyandsell.R;
 import com.google.firebase.database.DataSnapshot;
@@ -24,11 +24,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class ChooseCategory extends AppCompatActivity {
+public class ChooseLocation extends AppCompatActivity {
     DatabaseReference mDatabase;
-    CategoryAdapter adapter;
+    LocationsAdapter adapter;
     RecyclerView recyclerView;
-    String parentCategory;
+    String parentLocation;
     ArrayList<String> itemList = new ArrayList<>();
     ProgressBar progress;
 
@@ -49,7 +49,7 @@ public class ChooseCategory extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        adapter = new CategoryAdapter(this, itemList, new CategoryAdapter.GetNewData() {
+        adapter = new LocationsAdapter(this, itemList, new LocationsAdapter.GetNewData() {
             @Override
             public void whichCategory(String title) {
                 getCategoryDataFromDB(title);
@@ -59,22 +59,49 @@ public class ChooseCategory extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
 
-        parentCategory = getIntent().getStringExtra("parentCategory");
+        parentLocation = getIntent().getStringExtra("parentLocation");
 
-        if (parentCategory == null) {
-            this.setTitle("Choose category");
-//            getDataFromDB();
+        if (parentLocation == null) {
+            this.setTitle("Choose Location");
+            getDataFromDB();
         } else {
-            this.setTitle("" + parentCategory);
-            getCategoryDataFromDB(parentCategory);
+            this.setTitle("" + parentLocation);
+            getCategoryDataFromDB(parentLocation);
         }
 
 
     }
 
+    private void getDataFromDB() {
+        progress.setVisibility(View.VISIBLE);
+        mDatabase.child("Settings").child("Locations").child("Province").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    itemList.clear();
+
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String value = snapshot.getValue(String.class);
+                        itemList.add(value);
+                    }
+
+                    progress.setVisibility(View.GONE);
+
+                    adapter.notifyDataSetChanged();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     private void getCategoryDataFromDB(final String cat) {
         progress.setVisibility(View.VISIBLE);
-        mDatabase.child("Settings").child("Categories").child(cat).addValueEventListener(new ValueEventListener() {
+        mDatabase.child("Settings").child("Locations").child(cat).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
@@ -91,28 +118,20 @@ public class ChooseCategory extends AppCompatActivity {
 
                     adapter.notifyDataSetChanged();
                 } else {
-                    try {
-                        ChooseMainCategory.activity.finish();
-                        Filters.category = cat;
-                        if (MainActivity.abc) {
-                            SubmitAccountAd.categoryList.clear();
-                            SubmitAd.categoryList.clear();
-                            Intent i = new Intent(ChooseCategory.this, ListOfAds.class);
-                            MainActivity.abc=false;
-                            if (cat.equalsIgnoreCase("All ads")) {
-                                i.putExtra("category", parentCategory);
 
-                            } else {
-                                i.putExtra("category", cat);
+//                    ChooseMainCategory.activity.finish();
+                    if (MainActivity.abc) {
+                        Intent i = new Intent(ChooseLocation.this, ListOfAds.class);
+                        if (cat.equalsIgnoreCase("All Locations")) {
+                            i.putExtra("location", parentLocation);
 
-                            }
-                            startActivity(i);
+                        } else {
+                            i.putExtra("location", cat);
+
                         }
-                    } catch (NullPointerException e) {
-                        e.printStackTrace();
+                        startActivity(i);
                     }
-
-//                    finish();
+                    finish();
                 }
             }
 
@@ -126,7 +145,6 @@ public class ChooseCategory extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
         super.onBackPressed();
         try {
 
@@ -141,9 +159,6 @@ public class ChooseCategory extends AppCompatActivity {
                 finish();
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            if(MainActivity.abc){
-                MainActivity.abc=false;
-            }
             finish();
         }
     }
@@ -169,9 +184,6 @@ public class ChooseCategory extends AppCompatActivity {
                     finish();
                 }
             } catch (ArrayIndexOutOfBoundsException e) {
-                if(MainActivity.abc){
-                    MainActivity.abc=false;
-                }
                 finish();
             }
             super.onBackPressed();

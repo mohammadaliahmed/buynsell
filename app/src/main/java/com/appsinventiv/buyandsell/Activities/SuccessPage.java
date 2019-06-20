@@ -10,16 +10,19 @@ import com.appsinventiv.buyandsell.R;
 
 
 public class SuccessPage extends AppCompatActivity {
-    Button backtohome,postnew,myAds;
+    Button backtohome, postnew, myAds;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_success_page);
         SuccessPage.this.setTitle("Success");
-        backtohome=(Button)findViewById(R.id.back);
-        postnew=(Button)findViewById(R.id.postnew);
-        myAds=(Button)findViewById(R.id.viewmyads);
+        backtohome = (Button) findViewById(R.id.back);
+        postnew = (Button) findViewById(R.id.postnew);
+        myAds = (Button) findViewById(R.id.viewmyads);
 
+        SubmitAd.categoryList.clear();
+        SubmitAccountAd.categoryList.clear();
 
 
         myAds.setOnClickListener(new View.OnClickListener() {
@@ -39,22 +42,22 @@ public class SuccessPage extends AppCompatActivity {
         backtohome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(SuccessPage.this, MainActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                Intent i = new Intent(SuccessPage.this, MainActivity.class);
+//                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
                 startActivity(i);
-                finishAllActivities();
+//                finishAllActivities();
                 finish();
             }
         });
         postnew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(SuccessPage.this, SubmitAd.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                Intent i = new Intent(SuccessPage.this, SubmitAd.class);
+//                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
                 startActivity(i);
-                finishAllActivities();
+//                finishAllActivities();
 
                 finish();
             }
@@ -69,7 +72,8 @@ public class SuccessPage extends AppCompatActivity {
 //        finishAllActivities();
 //        finish();
     }
-    private  void finishAllActivities(){
+
+    private void finishAllActivities() {
 //        ChildCategory.fa.finish();
 ////        SubChild.fa.finish();
 //        MainCategory.fa.finish();

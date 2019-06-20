@@ -1,5 +1,6 @@
 package com.appsinventiv.buyandsell.Activities;
 
+import android.accounts.Account;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Handler;
@@ -62,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static boolean abc;
     DotsIndicator dots_indicator;
     ImageView uploadAd;
+    private TextView navUsername;
+    private TextView navSubtitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         searchProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,AccountSettings.class));
+                startActivity(new Intent(MainActivity.this, AccountSettings.class));
             }
         });
 
@@ -96,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 if (SharedPrefs.getIsLoggedIn().equalsIgnoreCase("yes")) {
-                    startActivity(new Intent(MainActivity.this, MyAds.class));
+                    startActivity(new Intent(MainActivity.this, MyAccountAds.class));
                 } else {
                     startActivity(new Intent(MainActivity.this, Login.class));
                 }
@@ -118,19 +121,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 } else {
                     if (liked) {
+                        boolean adtyp = false;
+                        if (model.getAdType() == null || model.getAdType().equalsIgnoreCase("simple")) {
+                            adtyp = false;
+                        } else if (model.getAdType().equalsIgnoreCase("account")) {
+                            adtyp = true;
+                        }
+
+                        final boolean finalAdtyp = adtyp;
                         mDatabase.child("Users").child(SharedPrefs.getUsername()).child("likedAds").child(model.getAdId()).setValue(model.getAdId()).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 CommonUtils.showToast("Marked as favorite");
-                                mDatabase.child("Ads").child(model.getAdId()).child("likesCount").setValue(model.getLikesCount());
+                                mDatabase.child(finalAdtyp ? "AccountAds" : "Ads").child(model.getAdId()).child("likesCount").setValue(model.getLikesCount());
                             }
                         });
                     } else {
+                        boolean adtyp = false;
+                        if (model.getAdType() == null || model.getAdType().equalsIgnoreCase("simple")) {
+                            adtyp = false;
+                        } else if (model.getAdType().equalsIgnoreCase("account")) {
+                            adtyp = true;
+                        }
+                        final boolean finalAdtyp = adtyp;
+
                         mDatabase.child("Users").child(SharedPrefs.getUsername()).child("likedAds").child(model.getAdId()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 CommonUtils.showToast("Removed from favorites");
-                                mDatabase.child("Ads").child(model.getAdId()).child("likesCount").setValue(model.getLikesCount());
+                                mDatabase.child(finalAdtyp ? "AccountAds" : "Ads").child(model.getAdId()).child("likesCount").setValue(model.getLikesCount());
 
                             }
                         });
@@ -224,11 +243,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
-        TextView navUsername = (TextView) headerView.findViewById(R.id.name_drawer);
-        TextView navSubtitle = (TextView) headerView.findViewById(R.id.phone_drawer);
+        navUsername = (TextView) headerView.findViewById(R.id.name_drawer);
+        navSubtitle = (TextView) headerView.findViewById(R.id.phone_drawer);
         Menu nav_Menu = navigationView.getMenu();
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getLikedAdsFromDB();
         if (SharedPrefs.getUsername().equalsIgnoreCase("")) {
 //            nav_Menu.findItem(R.id.signout).setVisible(false);
             navSubtitle.setText("Welcome to Buy n Sell");
@@ -246,18 +271,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             navUsername.setText(SharedPrefs.getName());
         }
-
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getLikedAdsFromDB();
     }
 
     private void getAllAdsFromDB() {
-        mDatabase.child("Ads").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Ads").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
@@ -265,8 +282,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         AdDetails ad = snapshot.getValue(AdDetails.class);
                         if (ad != null) {
+                            if (SharedPrefs.getUser() != null) {
+                                if (SharedPrefs.getUser().getCity() != null && ad.getCity() != null) {
+                                    if (ad.getCity().equalsIgnoreCase(SharedPrefs.getUser().getCity())) {
+                                        adsList.add(ad);
 
-                            adsList.add(ad);
+                                    }
+                                } else {
+
+                                }
+                            } else {
+//                                adsList.add(ad);
+                            }
                         }
                     }
                     Collections.sort(adsList, new Comparator<AdDetails>() {
@@ -323,6 +350,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+//            System.exit(1);
         }
     }
 
@@ -393,7 +421,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
         } else if (id == R.id.nav_settings) {
-
+            if (SharedPrefs.getIsLoggedIn().equalsIgnoreCase("yes")) {
+                startActivity(new Intent(MainActivity.this, AccountSettings.class));
+            } else {
+                startActivity(new Intent(MainActivity.this, Login.class));
+            }
         } else if (id == R.id.nav_logout) {
             SharedPrefs.logout();
             startActivity(new Intent(MainActivity.this, Splash.class));

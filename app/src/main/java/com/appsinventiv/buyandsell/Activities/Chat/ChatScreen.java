@@ -140,6 +140,8 @@ public class ChatScreen extends AppCompatActivity implements NotificationObserve
             public void onClick(View v) {
                 Intent i = new Intent(ChatScreen.this, AdPage.class);
                 i.putExtra("adId", adId);
+                i.putExtra("type", adFromDB.getAdType());
+
                 startActivity(i);
             }
         });

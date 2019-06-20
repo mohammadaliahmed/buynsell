@@ -10,20 +10,28 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.appsinventiv.buyandsell.Activities.Customer.AccountSettings;
 import com.appsinventiv.buyandsell.Activities.SubmitAd;
 import com.appsinventiv.buyandsell.R;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import static com.appsinventiv.buyandsell.Activities.Customer.AccountSettings.maincategory;
+
 public class MainCategoryAdapter extends RecyclerView.Adapter<MainCategoryAdapter.ViewHolder> {
     Context context;
     ArrayList<MainCategoryModel> itemList;
 
+    boolean abc;
 
     public MainCategoryAdapter(Context context, ArrayList<MainCategoryModel> itemList) {
         this.context = context;
         this.itemList = itemList;
+    }
+
+    public void setAbc(boolean abc) {
+        this.abc = abc;
     }
 
     @NonNull
@@ -46,9 +54,15 @@ public class MainCategoryAdapter extends RecyclerView.Adapter<MainCategoryAdapte
             public void onClick(View view) {
                 SubmitAd.categoryList.clear();
                 SubmitAd.categoryList.add(model.getMainCategory());
-                Intent i = new Intent(context, ChooseCategory.class);
-                i.putExtra("parentCategory", model.getMainCategory());
-                context.startActivity(i);
+
+                if (!abc) {
+                    Intent i = new Intent(context, ChooseCategory.class);
+                    i.putExtra("parentCategory", model.getMainCategory());
+                    context.startActivity(i);
+                } else {
+                    maincategory=model.getMainCategory();
+                    ChooseMainCategory.activity.finish();
+                }
             }
         });
 

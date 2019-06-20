@@ -110,13 +110,23 @@ public class Login extends AppCompatActivity {
                                     SharedPrefs.setUsername(user.getUsername());
                                     SharedPrefs.setPhone(user.getPhone());
                                     SharedPrefs.setName(user.getName());
+                                    SharedPrefs.setIsLoggedIn("yes");
 
-                                    if (user.isNumberVerified()) {
-                                        launchHomescreen();
-
-                                    } else {
-                                        launchPhoneVerficationScreen(user.getPhone());
-                                    }
+//                                    if (user.isNumberVerified()) {
+////                                        if(user.getMainCategory()!=null && !user.getMainCategory().equalsIgnoreCase("")) {
+                                    launchHomescreen();
+////                                        }else{
+////                                            SharedPrefs.setIsLoggedIn("yes");
+////                                            prefManager.setFirstTimeLaunch(false);
+////                                            startActivity(new Intent(Login.this, AccountSettings.class));
+////
+////
+////                                            finish();
+////                                        }
+//
+//                                    } else {
+//                                        launchPhoneVerficationScreen(user.getPhone());
+//                                    }
                                 } else {
                                     CommonUtils.showToast("Wrong password");
                                 }
@@ -132,8 +142,11 @@ public class Login extends AppCompatActivity {
     }
 
     private void launchPhoneVerficationScreen(String phone) {
-        Intent i=new Intent(Login.this,PhoneVerification.class);
-        i.putExtra("phone",phone);
+        SharedPrefs.setIsLoggedIn("yes");
+        prefManager.setFirstTimeLaunch(false);
+
+        Intent i = new Intent(Login.this, PhoneVerification.class);
+        i.putExtra("phone", phone);
         startActivity(i);
     }
 

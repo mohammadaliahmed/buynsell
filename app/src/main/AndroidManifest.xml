@@ -40,12 +40,20 @@
         <activity
             android:name=".Activities.SubmitAd"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".Activities.SuccessPage"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".Activities.SubmitAccountAd"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Activities.SuccessPage"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.SearchAds" />
         <activity android:name=".Activities.ListOfAds" />
         <activity android:name=".Activities.Categories.ChooseMainCategory" />
         <activity android:name=".Activities.Categories.ChooseCategory" />
+        <activity android:name=".Activities.Locations.ChooseLocation" />
+        <activity
+            android:name=".Activities.Filters"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".Activities.Chat.ChatScreen" />
         <activity android:name=".Activities.Chat.ListOfChats" />
         <activity android:name=".Activities.Customer.PhoneVerification" />
@@ -57,6 +65,7 @@
         <activity android:name=".Activities.Customer.ChangePassword" />
         <activity android:name=".Activities.CommentsActivity" />
         <activity android:name=".Activities.MyAds" />
+        <activity android:name=".Activities.MyAccountAds" />
         <activity
             android:name=".Activities.AdPage"
             android:theme="@style/AppTheme.NoActionBar" />

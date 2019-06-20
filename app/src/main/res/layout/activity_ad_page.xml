@@ -252,7 +252,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_marginTop="10dp"
                             android:layout_marginRight="10dp"
-                            app:icon_size="20dp"
+                            app:icon_size="15dp"
                             app:icon_type="heart"
                             app:is_enabled="true" />
 

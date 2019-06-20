@@ -19,13 +19,5 @@
         android:layout_centerInParent="true"
         android:text="No Ads" />
 
-    <ImageView
-        android:id="@+id/uploadAd"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_add" />
 
 </RelativeLayout>

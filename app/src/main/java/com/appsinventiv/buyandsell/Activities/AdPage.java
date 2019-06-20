@@ -65,6 +65,8 @@ public class AdPage extends AppCompatActivity {
     LikeButton heart_button;
     TextView commentsCount, likesCount;
     DotsIndicator dots_indicator;
+    private String adType;
+    boolean adtyp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +116,12 @@ public class AdPage extends AppCompatActivity {
 
         Intent intent = getIntent();
         adId = intent.getStringExtra("adId");
+        adType = intent.getStringExtra("type");
+        if(adType==null || adType.equalsIgnoreCase("simple") ){
+            adtyp=false;
+        }else if(adType.equalsIgnoreCase("account")){
+            adtyp=true;
+        }
 
         comments.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,6 +129,7 @@ public class AdPage extends AppCompatActivity {
                 if (SharedPrefs.getIsLoggedIn().equalsIgnoreCase("yes")) {
                     Intent i = new Intent(AdPage.this, CommentsActivity.class);
                     i.putExtra("adId", adId);
+                    i.putExtra("type", adDetails.getAdType());
                     startActivity(i);
                 } else {
                     startActivity(new Intent(AdPage.this, Login.class));
@@ -147,7 +156,11 @@ public class AdPage extends AppCompatActivity {
             }
         });
 
-        init(adId);
+        if(adType==null || adType.equalsIgnoreCase("simple") ){
+            init(adId,false);
+        }else if(adType.equalsIgnoreCase("account")){
+            init(adId,true);
+        }
         if (SharedPrefs.getUsername().equalsIgnoreCase("")) {
             startActivity(new Intent(AdPage.this, Login.class));
 
@@ -161,7 +174,7 @@ public class AdPage extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid) {
                             CommonUtils.showToast("Marked as favorite");
-                            mDatabase.child("Ads").child(adId).child("likesCount").setValue(adDetails.getLikesCount()+1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            mDatabase.child(adtyp?"AccountAds":"Ads").child(adId).child("likesCount").setValue(adDetails.getLikesCount()+1).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     adDetails.setLikesCount(adDetails.getLikesCount());
@@ -180,7 +193,7 @@ public class AdPage extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid) {
                             CommonUtils.showToast("Removed from favorites");
-                            mDatabase.child("Ads").child(adId).child("likesCount").setValue(adDetails.getLikesCount() - 1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            mDatabase.child(adtyp?"AccountAds":"Ads").child(adId).child("likesCount").setValue(adDetails.getLikesCount() - 1).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                 }
@@ -267,11 +280,12 @@ public class AdPage extends AppCompatActivity {
     }
 
 
-    public void init(String id) {
+    public void init(String id,boolean type) {
         mViewPager = findViewById(R.id.viewPager);
 
 
-        mDatabase.child("Ads").child(id).addValueEventListener(new ValueEventListener() {
+        mDatabase.child(type?"AccountAds":"Ads")
+                .child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot != null) {
