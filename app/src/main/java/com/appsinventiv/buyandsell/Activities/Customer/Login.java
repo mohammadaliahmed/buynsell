@@ -110,11 +110,11 @@ public class Login extends AppCompatActivity {
                                     SharedPrefs.setUsername(user.getUsername());
                                     SharedPrefs.setPhone(user.getPhone());
                                     SharedPrefs.setName(user.getName());
-                                    SharedPrefs.setIsLoggedIn("yes");
+//                                    SharedPrefs.setIsLoggedIn("yes");
 
-//                                    if (user.isNumberVerified()) {
-////                                        if(user.getMainCategory()!=null && !user.getMainCategory().equalsIgnoreCase("")) {
-                                    launchHomescreen();
+                                    if (user.isNumberVerified()) {
+//                                        if (user.getMainCategory() != null && !user.getMainCategory().equalsIgnoreCase("")) {
+                                        launchHomescreen();
 ////                                        }else{
 ////                                            SharedPrefs.setIsLoggedIn("yes");
 ////                                            prefManager.setFirstTimeLaunch(false);
@@ -124,9 +124,9 @@ public class Login extends AppCompatActivity {
 ////                                            finish();
 ////                                        }
 //
-//                                    } else {
-//                                        launchPhoneVerficationScreen(user.getPhone());
-//                                    }
+                                    } else {
+                                        launchPhoneVerficationScreen(user.getPhone());
+                                    }
                                 } else {
                                     CommonUtils.showToast("Wrong password");
                                 }

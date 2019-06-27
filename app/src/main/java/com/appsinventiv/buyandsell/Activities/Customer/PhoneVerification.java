@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -58,10 +60,12 @@ public class PhoneVerification extends AppCompatActivity {
                 logout();
             }
         });
-        if (!prefManager.isFirstTimeLaunch()) {
-            launchHomescreen();
-            finish();
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+        this.setTitle("Verify your phone");
+
         sendCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,7 +91,7 @@ public class PhoneVerification extends AppCompatActivity {
                         mDatabase.child("Users").child(SharedPrefs.getUsername()).child("numberVerified").setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                               launchHomescreen();
+                                launchHomescreen();
                             }
                         });
                     }
@@ -109,15 +113,19 @@ public class PhoneVerification extends AppCompatActivity {
                         super.onCodeAutoRetrievalTimeOut(s);
                         CommonUtils.showToast("Time out");
                     }
+
                 }
 
         );
     }
 
     private void launchHomescreen() {
+        User user = SharedPrefs.getUser();
+        user.setNumberVerified(true);
+        SharedPrefs.setUser(user);
         SharedPrefs.setIsLoggedIn("yes");
         prefManager.setFirstTimeLaunch(false);
-        startActivity(new Intent(PhoneVerification.this, AccountSettings.class));
+        startActivity(new Intent(PhoneVerification.this, MainActivity.class));
 
 
         finish();
@@ -128,5 +136,21 @@ public class PhoneVerification extends AppCompatActivity {
         startActivity(new Intent(PhoneVerification.this, Splash.class));
         finish();
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+
+
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
 }

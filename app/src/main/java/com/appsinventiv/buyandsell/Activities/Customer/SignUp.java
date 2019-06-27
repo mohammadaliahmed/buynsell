@@ -31,7 +31,7 @@ public class SignUp extends AppCompatActivity {
     Button signup;
     TextView login;
     DatabaseReference mDatabase;
-    private PrefManager prefManager;
+//    private PrefManager prefManager;
     EditText e_fullname, e_username, e_email, e_password, e_phone, e_city, e_confirmPassword;
     String fullname, username, email, password, phone, confirmPassword;
 
@@ -53,11 +53,11 @@ public class SignUp extends AppCompatActivity {
         this.setTitle("Signup");
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        prefManager = new PrefManager(this);
-        if (!prefManager.isFirstTimeLaunch()) {
-            launchHomescreen();
-            finish();
-        }
+        PrefManager prefManager = new PrefManager(this);
+//        if (!prefManager.isFirstTimeLaunch()) {
+//            launchHomescreen();
+//            finish();
+//        }
 
         getAllUserFromDB();
 
@@ -167,8 +167,8 @@ public class SignUp extends AppCompatActivity {
                             SharedPrefs.setPhone(phone);
                             SharedPrefs.setName(fullname);
                             SharedPrefs.setIsLoggedIn("yes");
-                            launchHomescreen();
-//                            launchPhoneVerficationScreen(phone);
+//                            launchHomescreen();
+                            launchPhoneVerficationScreen(phone);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -188,10 +188,11 @@ public class SignUp extends AppCompatActivity {
     }
 
     private void launchHomescreen() {
-        prefManager.setFirstTimeLaunch(false);
-        startActivity(new Intent(SignUp.this, MainActivity.class));
 
-
-        finish();
+//        prefManager.setFirstTimeLaunch(false);
+//        startActivity(new Intent(SignUp.this, MainActivity.class));
+//
+//
+//        finish();
     }
 }

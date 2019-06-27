@@ -27,6 +27,7 @@ import com.appsinventiv.buyandsell.Activities.Categories.ChooseMainCategory;
 import com.appsinventiv.buyandsell.Activities.Chat.ListOfChats;
 import com.appsinventiv.buyandsell.Activities.Customer.AccountSettings;
 import com.appsinventiv.buyandsell.Activities.Customer.Login;
+import com.appsinventiv.buyandsell.Activities.Customer.PhoneVerification;
 import com.appsinventiv.buyandsell.Adapters.HomepageAdsAdapter;
 import com.appsinventiv.buyandsell.Adapters.MainSliderAdapter;
 import com.appsinventiv.buyandsell.Models.AdDetails;
@@ -99,7 +100,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 if (SharedPrefs.getIsLoggedIn().equalsIgnoreCase("yes")) {
-                    startActivity(new Intent(MainActivity.this, MyAccountAds.class));
+                    if (SharedPrefs.getUser().isNumberVerified()) {
+                        startActivity(new Intent(MainActivity.this, MyAccountAds.class));
+
+                    } else {
+                        Intent i = new Intent(MainActivity.this, PhoneVerification.class);
+                        i.putExtra("phone", SharedPrefs.getUser().getPhone());
+                        startActivity(i);
+
+                    }
                 } else {
                     startActivity(new Intent(MainActivity.this, Login.class));
                 }
@@ -388,7 +397,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_post_ad) {
 
             if (SharedPrefs.getIsLoggedIn().equalsIgnoreCase("yes")) {
-                startActivity(new Intent(MainActivity.this, SubmitAd.class));
+                if (SharedPrefs.getUser().isNumberVerified()) {
+                    startActivity(new Intent(MainActivity.this, MyAds.class));
+
+                } else {
+                    Intent i = new Intent(MainActivity.this, PhoneVerification.class);
+                    i.putExtra("phone", SharedPrefs.getUser().getPhone());
+                    startActivity(i);
+
+                }
             } else {
                 startActivity(new Intent(MainActivity.this, Login.class));
             }
@@ -415,7 +432,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_my_ads) {
             if (SharedPrefs.getIsLoggedIn().equalsIgnoreCase("yes")) {
-                startActivity(new Intent(MainActivity.this, MyAds.class));
+                if (SharedPrefs.getUser().isNumberVerified()) {
+                    startActivity(new Intent(MainActivity.this, MyAds.class));
+
+                } else {
+                    Intent i = new Intent(MainActivity.this, PhoneVerification.class);
+                    i.putExtra("phone", SharedPrefs.getUser().getPhone());
+                    startActivity(i);
+
+                }
             } else {
                 startActivity(new Intent(MainActivity.this, Login.class));
             }

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
 
     <android.support.design.widget.TextInputLayout
@@ -12,31 +13,62 @@
         android:layout_margin="10dp">
 
         <android.support.design.widget.TextInputEditText
-            android:layout_width="match_parent"
             android:id="@+id/number"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Phone Number" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
+        android:id="@+id/sendCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
         android:layout_marginTop="100dp"
-        android:id="@+id/sendCode"
         android:background="@drawable/btn_bg"
         android:inputType="text"
         android:text="Send Code"
         android:textColor="#fff" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:visibility="gone"
+        android:layout_alignParentTop="true"
+        android:layout_margin="10dp">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Code" />
+    </android.support.design.widget.TextInputLayout>
+
     <Button
-        android:layout_below="@id/sendCode"
+        android:id="@+id/verify"
         android:layout_width="wrap_content"
-        android:layout_margin="10dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/btn_bg"
+        android:inputType="text"
+        android:visibility="gone"
+        android:text="Verify"
+        android:textColor="#fff" />
+
+    <Button
         android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sendCode"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
         android:background="@drawable/btn_bg"
         android:inputType="text"
         android:text="Logout"
         android:textColor="#fff" />
-</RelativeLayout>
+</LinearLayout>

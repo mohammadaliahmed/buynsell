@@ -112,7 +112,7 @@ public class ChooseCategory extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-//                    finish();
+                    finish();
                 }
             }
 
